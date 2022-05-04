@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+public delegate void AjustSlotCallback(GameObject slots);
 
 public class AnimateLayout : MonoBehaviour
 {
     public GameObject slots;
     public GameObject cards;
+
+    public AjustSlotCallback ajustSlotCallback;
 
     public List<GameObject> cardList = new List<GameObject>();
     // Start is called before the first frame update
@@ -47,9 +50,14 @@ public class AnimateLayout : MonoBehaviour
         }
     }
 
-    void resetCardsPos(GameObject notAnimationItem = null)
+
+    public void resetCardsPos(GameObject notAnimationItem = null)
     {
         ajustSlots();
+        if (ajustSlotCallback != null)
+        {
+            ajustSlotCallback(slots);
+        }
         Canvas.ForceUpdateCanvases();
         moveCards(notAnimationItem);
     }
@@ -76,7 +84,7 @@ public class AnimateLayout : MonoBehaviour
             };
             if (i > count - 1)
             {
-                Destroy(slots.transform.GetChild(i).gameObject);
+                DestroyImmediate(slots.transform.GetChild(i).gameObject);
             };
         }
     }
@@ -91,14 +99,14 @@ public class AnimateLayout : MonoBehaviour
             if (notAnimationItem == card)
             {
                 card.transform.position = slot.position;
-                card.transform.localRotation = Quaternion.identity;
-                card.transform.localScale = Vector3.one;
+                card.transform.localRotation = slot.localRotation;
+                card.transform.localScale = slot.localScale;
             }
             else
             {
                 card.transform.DOMove(slot.position, 0.5f);
-                card.transform.DOLocalRotate(Vector3.zero, 0.5f);
-                card.transform.DOScale(Vector3.one, 0.5f);
+                card.transform.DOLocalRotate(slot.localEulerAngles, 0.5f);
+                card.transform.DOScale(slot.localScale, 0.5f);
 
             }
         }
