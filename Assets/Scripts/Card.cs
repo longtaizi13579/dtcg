@@ -28,23 +28,7 @@ public class Card : MonoBehaviour
         cardBg = Resources.Load<Sprite>("img/card-bg");
         cardBgEgg = Resources.Load<Sprite>("img/card-bg-egg");
         // faceUpSprite = Resources.Load<Sprite>("cardImage/BT1-027");
-        faceUpSprite = loadImage("BT1-001");
-    }
-
-    Sprite loadImage(string serial)
-    {
-        var folderPath = Application.streamingAssetsPath + "/cardImage/";
-        var imgPath = folderPath +serial+ ".jpg";
-        byte[] pngBytes = System.IO.File.ReadAllBytes(imgPath);
-
-        //Creates texture and loads byte array data to create image
-        Texture2D tex = new Texture2D(2, 2);
-        tex.LoadImage(pngBytes);
-
-        //Creates a new Sprite based on the Texture2D
-        Sprite fromTex = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
-        return fromTex;
+        faceUpSprite = ImageLoader.LoadImage("/cardImage/BT1-001.jpg");
     }
 
     // Start is called before the first frame update
