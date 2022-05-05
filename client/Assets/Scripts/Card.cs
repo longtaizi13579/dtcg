@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class Card : AnimateLayoutItem
+public class Card : MonoBehaviour
 {
     public int id;
     public bool isEgg = false;
@@ -13,7 +13,7 @@ public class Card : AnimateLayoutItem
         get
         {
             var game = GameObject.Find("Game").GetComponent<Game>();
-            return belongTo == game.hand1;
+            return getBelongTo() == game.hand1;
         }
     }
     public GameObject img;
@@ -83,5 +83,9 @@ public class Card : AnimateLayoutItem
         {
             img.GetComponent<Image>().sprite = faceUpSprite;
         }
+    }
+    AnimateLayout getBelongTo()
+    {
+        return transform.parent?.parent?.GetComponent<AnimateLayout>();
     }
 }

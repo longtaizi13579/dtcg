@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterCard : AnimateLayoutItem
+public class MonsterCard : MonoBehaviour
 {
     bool _isSleep = false;
 

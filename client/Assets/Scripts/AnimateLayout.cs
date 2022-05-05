@@ -13,25 +13,20 @@ public class AnimateLayout : MonoBehaviour
     public AjustSlotCallback ajustSlotCallback;
 
     public List<GameObject> cardList = new List<GameObject>();
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     public void Add(GameObject card, bool animation = true)
     {
+        removeFromBelong(card);
         card.transform.SetParent(cards.transform, true);
         cardList.Add(card);
-        setBelong(card);
         resetCardsPos(animation ? null : card);
     }
 
     public void Insert(GameObject card, int index, bool animation = true)
     {
+        removeFromBelong(card);
         card.transform.SetParent(cards.transform, true);
         cardList.Insert(index, card);
-        setBelong(card);
         resetCardsPos(animation ? null : card);
     }
 
@@ -41,12 +36,11 @@ public class AnimateLayout : MonoBehaviour
         resetCardsPos();
     }
 
-    void setBelong(GameObject card)
+    void removeFromBelong(GameObject card)
     {
-        var item = card.GetComponent<AnimateLayoutItem>();
-        if (item != null)
-        {
-            item.setBelongTo(this);
+        var belongTo = getBelongTo(card);
+        if(belongTo){
+            belongTo.Remove(card);
         }
     }
 
@@ -112,11 +106,8 @@ public class AnimateLayout : MonoBehaviour
         }
     }
 
-
-
-    // Update is called once per frame
-    void Update()
+    AnimateLayout getBelongTo(GameObject card)
     {
-
+        return card.transform.parent?.parent?.GetComponent<AnimateLayout>();
     }
 }
