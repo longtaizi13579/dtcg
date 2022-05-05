@@ -12,6 +12,8 @@ jobs:
           - StandaloneOSX
           - iOS
           - Android
+          - StandaloneWindows
+          
     steps:
       # Checkout
       - name: Checkout repository
